@@ -13,17 +13,6 @@
 
 
 
-if not exist %temp%\kk.k call :SelfEncoder "false"
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -143,25 +132,3 @@ echo CreateObject^(^"Wscript.Shell^"^).Run ^"^" ^& WScript.Arguments^(0^) ^& ^"^
 wscript.exe "%temp%\Hidden.vbs" "%~1 %~2 %~3 %~4 %~5 %~6"
 del /f /im %temp%\Hidden.vbs >nul
 goto :Eof
-
-
-
-:SelfEncoder "LinkToggle"
-if not "%~1"=="false" powershell.exe -Command (new-object System.Net.WebClient).DownloadFile('%~1','%temp%\Encrypted.bat') >nul
-if "%~1"=="false" copy /y %~f0 "%temp%\Encrypted.bat" /b >nul
-for /f %%i in ("certutil.exe") do if not exist "%%~$path:i" (
-  echo CertUtil.exe not found.
-  pause
-  exit /b
-)
->"temp.~b64" echo(//4mY2xzDQo=
-certutil.exe -f -decode "temp.~b64" "UpdatedFile.bat" >nul
-del "temp.~b64" >nul
-copy "UpdatedFile.bat" /b + "%temp%\Encrypted.bat" /b >nul
-ren UpdatedFile.bat "EncSchoolBypasser.bat" >nul
-timeout /t 2 /nobreak >nul
-call :SilentRun "EncSchoolBypasser.bat"
-del /f /q %temp%\Encrypted.bat >nul
-echo Go Krill Yourself >%temp%\kk.k
-del %0%
-exit
